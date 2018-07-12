@@ -1,4 +1,8 @@
-read.csv(busbreakdown)
+#first import data set
+#make an empty matrix and change it to a matrix 
+#use Sys.time to find how long this takes to run
+#the for loop subsets and imputs the data into the empty data frame
+uniqueReason<-unique(busbreakdown$Reason)
 result<-matrix(0,nrow=10,ncol=2)
 result<-as.data.frame(result)
 colnames(result)<-c("Type","count")
@@ -13,7 +17,8 @@ t2=Sys.time()
 t2-t1
 
 
-
+#assign all values to 0
+#using a for loop to see where that variable comes up and add one every time it does to check the frequency
 Other<-0
 MechanicalProblem<-0
 HeavyTraffic<-0
@@ -62,7 +67,7 @@ for(i in 1:length(busbreakdown$Reason)){
 t4=Sys.time()
 t4-t3
 
-
+#this is an efficient way to find the frequency of reasons. 
 t5<-Sys.time()
 plyr::count(busbreakdown$Reason)
 t6<-Sys.time()
@@ -71,7 +76,8 @@ t6-t5
 
 #from main data frame
 #table 
-     #rount and all failures and the counts 
+#find the unique number of routes and reasons to find out how many times you need to loop through
+#I had an extra reason that was empty so I specified 1:10
 uniqueReason<-unique(busbreakdown$Reason)
 uniqueRouteNumber<-unique(busbreakdown$Route_Number)
 answer<-matrix(0,nrow=length(uniqueRouteNumber),ncol=10)
@@ -80,7 +86,8 @@ colnames(answer)<-c(uniqueReason[1:10])
 rownames(answer)<-c(uniqueRouteNumber)
 
 
-#for every unique route
+#for every unique route check reason. This goes to each route and checks the reasons
+#This will fill in row by row 
 
 t8<-Sys.time()
 for (i in 1:length(uniqueRouteNumber)) {
@@ -101,7 +108,6 @@ t9<-Sys.time()
 t9-t8
 
 
-#count the reason of delay for each route
-#for every unique route print the frequency
 
+#This is the most efficient way to find frequency, but the layout is not the same.
 plyr::count(busbreakdown, c("Route_Number","Reason"))
